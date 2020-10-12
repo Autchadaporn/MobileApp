@@ -1,15 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:login_app/modules/home.dart';
 import 'package:login_app/modules/signup_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatelessWidget{
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key}) : super(key: key);
+
+  @override
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
+  // GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  String email, password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.yellow[200],
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(left: 16,right: 16),
+          padding: EdgeInsets.only(left: 16, right: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,62 +31,92 @@ class LoginPage extends StatelessWidget{
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(height: 50,),
-                  Text("Welcome,",style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 6,),
-                  Text("Sign in to continue!",style: TextStyle(fontSize: 20,color: Colors.grey.shade400),),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    "Welcome, Unicorn",
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  // Text(
+                  //   "Sign in to continue!",
+                  //   style: TextStyle(fontSize: 20, color: Colors.grey.shade400),
+                  // ),
                 ],
               ),
               Column(
                 children: <Widget>[
                   TextField(
+                    // controller: emailController,
+                    onChanged: (value) => email = value.trim(),
                     decoration: InputDecoration(
                       labelText: "Email ID",
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400),
+                      labelStyle:
+                          // TextStyle(fontSize: 14, color: Colors.grey.shade400),
+                          TextStyle(fontSize: 14, color: Colors.black),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
-                          color: Colors.grey.shade300,
+                          // color: Colors.grey.shade300,
+                          color: Colors.black,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
                             color: Colors.red,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  SizedBox(height: 16,),
+                  SizedBox(
+                    height: 16,
+                  ),
                   TextField(
+                    // controller: passwordController,
+                    onChanged: (value) => password = value.trim(),
                     decoration: InputDecoration(
                       labelText: "Password",
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400),
+                      labelStyle:
+                          // TextStyle(fontSize: 14, color: Colors.grey.shade400),
+                          TextStyle(fontSize: 14, color: Colors.black),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
-                          color: Colors.grey.shade300,
+                          // color: Colors.grey.shade300,
+                          color: Colors.black,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
                             color: Colors.red,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  SizedBox(height: 12,),
+                  SizedBox(
+                    height: 12,
+                  ),
                   Align(
                     alignment: Alignment.topRight,
-                    child: Text("Forgot Password ?",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
+                    child: Text(
+                      "Forgot Password ?",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    ),
                   ),
-                  SizedBox(height: 30,),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Container(
                     height: 50,
                     width: double.infinity,
                     child: FlatButton(
-                      onPressed: (){},
+                      onPressed: () {
+                        checksighin();
+                      },
                       padding: EdgeInsets.all(0),
                       child: Ink(
                         decoration: BoxDecoration(
@@ -81,16 +125,26 @@ class LoginPage extends StatelessWidget{
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                             colors: [
-                              Color(0xffff5f6d),
-                              Color(0xffff5f6d),
-                              Color(0xffffc371),
+                              // Color(0xffff5f6d),
+                              // Color(0xffff5f6d),
+                              // Color(0xffffc371),
+                              Color(0xff64dd17),
+                              Color(0xff4ca047),
+                              Color(0xff64dd17),
                             ],
                           ),
                         ),
                         child: Container(
                           alignment: Alignment.center,
-                          constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 50),
-                          child: Text("Login",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                          constraints: BoxConstraints(
+                              maxWidth: double.infinity, minHeight: 50),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                       shape: RoundedRectangleBorder(
@@ -98,27 +152,42 @@ class LoginPage extends StatelessWidget{
                       ),
                     ),
                   ),
-                  SizedBox(height: 16,),
-                  Container(
-                    height: 50,
-                    width: double.infinity,
-                    child: FlatButton(
-                      onPressed: (){},
-                      color: Colors.indigo.shade50,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset("images/facebook.png",height: 18,width: 18,),
-                          SizedBox(width: 10,),
-                          Text("Connect with Facebook",style: TextStyle(color: Colors.indigo,fontWeight: FontWeight.bold),),
-                        ],
-                      ),
-                    ),
+                  SizedBox(
+                    height: 16,
                   ),
-                  SizedBox(height: 30,),
+                  // Container(
+                  //   height: 50,
+                  //   width: double.infinity,
+                  //   child: FlatButton(
+                  //     onPressed: () {},
+                  //     color: Colors.indigo.shade50,
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(6),
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: <Widget>[
+                  //         Image.asset(
+                  //           "images/facebook.png",
+                  //           height: 18,
+                  //           width: 18,
+                  //         ),
+                  //         SizedBox(
+                  //           width: 10,
+                  //         ),
+                  //         Text(
+                  //           "Connect with Facebook",
+                  //           style: TextStyle(
+                  //               color: Colors.indigo,
+                  //               fontWeight: FontWeight.bold),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 30,
+                  ),
                 ],
               ),
               Padding(
@@ -126,14 +195,22 @@ class LoginPage extends StatelessWidget{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("I'm a new user.",style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text(
+                      "I'm a new user.",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
                           return SignupPage();
                         }));
                       },
-                      child: Text("Sign up",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
+                      child: Text(
+                        "Sign up",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red[400]),
+                      ),
                     )
                   ],
                 ),
@@ -143,5 +220,21 @@ class LoginPage extends StatelessWidget{
         ),
       ),
     );
+  }
+
+  Future<void> checksighin() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((response) {
+      print("Sign up user successful.");
+      MaterialPageRoute
+          materialPageRoute = //  4 บรรทัดนี้  เวลาสมัครเสร็จจะให้กลับไปหน้า Login ใหม่
+          MaterialPageRoute(builder: (BuildContext context) => Homepage()); //
+      Navigator.of(context).pushAndRemoveUntil(
+          //
+          materialPageRoute,
+          (Route<dynamic> route) => false); //
+    }).catchError((response) {});
   }
 }
